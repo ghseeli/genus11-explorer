@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Rotate a genus-11 surface and select two vertices to trace their completing triangles."><title>PG(3,2) · Triangle explorer</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f4f7fa;color:#183244;font:15px/1.5 system-ui,sans-serif}main{display:grid;grid-template-columns:340px minmax(0,1fr);height:100dvh}aside{padding:28px 24px;background:white;border-right:1px solid #dbe4eb;overflow:auto}.eyebrow{font-size:11px;letter-spacing:2px;color:#547081;font-weight:700}h1{font-size:29px;line-height:1.15;letter-spacing:-1px;margin:12px 0}p{color:#536978;font-size:13px}.stats{font-size:12px;color:#547081;padding:12px 0 20px;border-bottom:1px solid #e1e8ee}.pair{display:flex;gap:12px;margin:20px 0 12px}.pair label{flex:1;font-size:12px;font-weight:650}select{display:block;width:100%;margin-top:6px;padding:10px;border:1px solid #bdcdd8;border-radius:8px;background:white;font:600 17px system-ui;color:#183244}button{cursor:pointer;border:1px solid #bdcdd8;border-radius:8px;background:#fff;color:#183244;padding:9px 12px;font:600 12px system-ui}button:hover{background:#edf3f8}button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #4892df;outline-offset:3px}.answer{padding:13px 15px;border-radius:10px;background:#eef4ff;border-left:4px solid #2563eb;margin:10px 0}.answer.light{background:#fff3eb;border-color:#e26932}.answer small{display:block;font-size:11px;font-weight:700;letter-spacing:.5px}.answer strong{font-size:25px}.answer span{font-size:12px;display:block;color:#536978}.controls{border-top:1px solid #e1e8ee;margin-top:22px;padding-top:16px}.check{display:block;margin:11px 0;font-size:13px}.views{display:flex;gap:6px;flex-wrap:wrap;margin:16px 0}.stage{position:relative;min-width:0;min-height:0}.plotly-graph-div{width:100%!important;height:100%!important}.stage>div{height:100%}.caption{position:absolute;bottom:16px;left:20px;right:20px;pointer-events:none;color:#536978;font-size:12px}.key{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:5px;background:#c29400}#status{font-size:12px;color:#536978;min-height:36px}details{font-size:12px;color:#536978;margin-top:20px}summary{cursor:pointer;font-weight:600}#reset{width:100%}@media(max-width:760px){main{height:auto;display:flex;flex-direction:column}aside{padding:20px;border-right:0}.stage{height:70dvh;min-height:420px}.stats{padding-bottom:10px}.pair{margin-top:12px}h1{font-size:25px}}
+</style>
+</head>
+<body><main><aside>
+<div class="eyebrow">FINITE GEOMETRY / GENUS 11</div>
+<h1>Two vertices.<br>Find the third.</h1>
+<p>Follow a pair through the triangulated surface. Each colour system supplies one completing vertex.</p>
+<div class="stats">15 vertices · 105 edges · 70 triangles</div>
+<div class="pair"><label>Vertex A<select id="a" aria-label="Vertex A"></select></label><label>Vertex B<select id="b" aria-label="Vertex B"></select></label></div>
+<div id="answers" aria-live="polite"></div>
+<div id="status" role="status"></div>
+<div class="controls">
+<label class="check"><input id="isolate" type="checkbox"> Isolate selected triangles</label>
+<label class="check"><input id="boundaries" type="checkbox" checked> Show all triangle boundaries</label>
+<label class="check"><input id="labels" type="checkbox" checked> Show all vertex labels</label>
+<div class="views"><button data-view="oblique">Oblique</button><button data-view="top">Top</button><button data-view="bottom">Underside</button></div>
+<button id="reset">Reset view & selection</button>
+</div>
+<p>Drag to rotate · Pinch or scroll to zoom<br>Click two labelled vertices, or use the selectors. Rotate to follow edges around the back; isolate the triangles to remove surrounding faces.</p>
+<details><summary>What do the two answers mean?</summary><p>Blue marks a dark face of the original PG(3,2): the third label is A XOR B. Orange marks a light face of the second Steiner triple system. The gold curve is the shared edge A–B. Every distinct pair has exactly one answer in each system.</p><p>Highlights follow the original curved surface edges, not straight chords. The underlying 70 faces and genus-11 geometry are unchanged. Hover a face for its oriented triple. Extra mesh facets are only for rendering.</p></details>
+</aside><section class="stage" aria-label="Interactive triangulated genus 11 surface"><div style="height:100%; width:100%;">                        <script>window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script src="plotly.min.js"></script>                <div id="model" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>window.modelTraces=[];</script><script src="mesh-0.js"></script><script src="mesh-1.js"></script><script src="mesh-2.js"></script><script src="mesh-3.js"></script><script src="mesh-4.js"></script><script src="mesh-5.js"></script><script src="mesh-6.js"></script><script src="mesh-7.js"></script><script src="mesh-8.js"></script><script src="mesh-9.js"></script><script src="render.js"></script>        </div><footer class="caption"><span class="key"></span>Shared edge &nbsp; · &nbsp; Blue: dark system &nbsp; · &nbsp; Orange: light system</footer></section></main>
+<script src="explorer.js"></script></body></html>
