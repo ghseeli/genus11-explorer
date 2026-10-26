@@ -10,10 +10,11 @@
 <body><main><aside>
 <div class="eyebrow">FINITE GEOMETRY / GENUS 11</div>
 <h1>See the triangles.<br>Follow the vertices.</h1>
-<p>Start around one vertex: fourteen readable triangles, with the original connections. Select a second vertex to find both completions.</p>
+<p>Rotate the thicker surface and select two vertices to find both completing triangles. Adjust the thickness to compare with the original.</p>
 <div class="stats">15 vertices · 105 edges · 70 triangles</div>
-<label class="check">View<select id="mode" aria-label="View"><option value="local">Vertex neighborhood</option><option value="surface">Whole genus-11 surface</option></select></label>
+<label class="check">View<select id="mode" aria-label="View"><option value="surface">Whole genus-11 surface</option><option value="local">Vertex neighborhood</option></select></label>
 <div id="local-controls"><label class="check" for="fold">Fold the neighborhood <output id="fold-value">100%</output></label><input id="fold" aria-label="Fold the neighborhood" type="range" min="0" max="100" value="100" style="width:100%"><p id="local-note">A local disk of 14 faces, redrawn with equal-sided triangles. Drag to see the folds, or flatten for a clear overhead map. The rest of the surface is omitted.</p></div>
+<div id="surface-controls"><label class="check" for="thickness">Surface thickness <output id="thickness-value">2.5×</output></label><input id="thickness" aria-label="Surface thickness" type="range" min="1" max="4" step="0.25" value="2.5" style="width:100%"></div>
 <div class="pair"><label>Center vertex A<select id="a" aria-label="Vertex A"></select></label><label>Neighbor vertex B<select id="b" aria-label="Vertex B"></select></label></div>
 <div id="answers" aria-live="polite"></div>
 <div id="status" role="status"></div>
@@ -25,7 +26,7 @@
 <button id="reset">Reset view & selection</button>
 </div>
 <p>Drag to rotate · Pinch or scroll to zoom<br>Click two labelled vertices, or use the selectors. The two faces beside the gold edge give the answers. Choose “Whole genus-11 surface” to see where they belong globally.</p>
-<details><summary>What do the two answers mean?</summary><p>Blue marks a dark face of the original PG(3,2): the third label is A XOR B. Orange marks a light face of the second Steiner triple system. The gold curve is the shared edge A–B. Every distinct pair has exactly one answer in each system.</p><p>The neighborhood preserves the cyclic order and labels of all 14 incident faces. At full fold its triangles are equilateral; flattening changes lengths but not connections. This is a local re-embedding, not an isometric piece of the necklace. The whole-surface view retains the original genus-11 geometry and curved edges. Hover a face for its oriented triple.</p></details>
+<details><summary>What do the two answers mean?</summary><p>Blue marks a dark face of the original PG(3,2): the third label is A XOR B. Orange marks a light face of the second Steiner triple system. The gold curve is the shared edge A–B. Every distinct pair has exactly one answer in each system.</p><p>The neighborhood preserves the cyclic order and labels of all 14 incident faces. At full fold its triangles are equilateral; flattening changes lengths but not connections. This is a local re-embedding, not an isometric piece of the necklace. The whole-surface view stretches the original surface vertically, preserving genus, all faces, and all curved-edge connections. Thickness does not redistribute the edges around vertices. Hover a face for its oriented triple.</p></details>
 </aside><section class="stage" aria-label="Interactive triangulated genus 11 surface"><div style="height:100%; width:100%;">                        <script>window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
         <script src="plotly.min.js"></script>                <div id="model" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>window.modelTraces=[];</script><script src="mesh-0.js"></script><script src="mesh-1.js"></script><script src="mesh-2.js"></script><script src="mesh-3.js"></script><script src="mesh-4.js"></script><script src="mesh-5.js"></script><script src="mesh-6.js"></script><script src="mesh-7.js"></script><script src="mesh-8.js"></script><script src="mesh-9.js"></script><script src="render.js"></script>        </div><footer class="caption"><span class="key"></span>Shared edge &nbsp; · &nbsp; Blue: dark system &nbsp; · &nbsp; Orange: light system</footer></section></main>
 <script src="explorer.js"></script></body></html>
