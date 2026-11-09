@@ -75,6 +75,7 @@ function update(){
     return `<div class="answer ${i>=35?'light':''}"><small>${i<35?'DARK · PG(3,2)':'LIGHT · SECOND SYSTEM'}</small><strong>${u}, ${v} → ${third}</strong><span>Oriented face (${geometry.triples[i].join(', ')})</span></div>`;
   }).join('');
   document.getElementById('status').textContent=u===v?'Choose two distinct vertices to find a triangle.':`Shared edge ${u}–${v}. ${mode.value==='local'?'Click a neighbor to set B.':'Click a vertex to set '+nextPick.toUpperCase()+'.'}`;
+  if(mode.value==='rings'){updateRings(u,v,selected);return;}
   const colors=geometry.triples.map((_,i)=>selected.includes(i)?(i<35?'#6b9cfa':'#ffbe8d'):(i<35?'#b5cef5':'#f5dfc8'));
   const inView = i => mode.value==='surface'||geometry.incident.includes(i);
   const traces=plot.data.map(trace=>({...trace}));
@@ -105,7 +106,47 @@ plot.on('plotly_click',event=>{
   if(mode.value==='local'){b.value=String(label);update();}
   else {(nextPick==='a'?a:b).value=String(label);nextPick=nextPick==='a'?'b':'a';update();}
 });
+function updateRings(u,v,selected){
+  const selectedEdges=new Map();
+  for(const i of selected){const t=surfaceGeometry.triples[i];for(let j=0;j<3;j++)selectedEdges.set(pairKey(t[j],t[(j+1)%3]),i<35?'#2563eb':'#e26932');}
+  if(selected.length)selectedEdges.set(pairKey(u,v),'#c29400');
+  document.querySelectorAll('[data-ring-face]').forEach(el=>{
+    const i=Number(el.dataset.ringFace),chosen=selected.includes(i);
+    el.style.display=isolate.checked&&!chosen?'none':'';
+    el.setAttribute('fill',chosen?(i<35?'#a7c4ff':'#ffd1af'):(i<35?'#e7eef7':'#f5ece2'));
+  });
+  document.querySelectorAll('[data-ring-edge]').forEach(el=>{
+    const color=selectedEdges.get(el.dataset.ringEdge);
+    el.style.display=color||boundaries.checked&&!isolate.checked?'':'none';
+    el.setAttribute('stroke',color||'#63788b');el.setAttribute('stroke-width',color?'3':'1');
+    if(color)el.parentNode.appendChild(el);
+  });
+  const ids=new Set([u,v,...selected.flatMap(i=>surfaceGeometry.triples[i])]);
+  document.querySelectorAll('[data-ring-vertex]').forEach(el=>{
+    const id=Number(el.dataset.ringVertex);
+    el.style.display=ids.has(id)||labels.checked&&!isolate.checked?'':'none';
+    el.querySelector('circle').setAttribute('fill',id===u||id===v?'#ffe18b':'white');
+  });
+  document.getElementById('status').textContent=u===v?'Choose two distinct vertices to find a triangle.':`Shared edge ${u}–${v}. Click a label in either strip to set ${nextPick.toUpperCase()}.`;
+}
+document.querySelectorAll('[data-ring-vertex]').forEach(el=>{
+  const pick=()=>{(nextPick==='a'?a:b).value=el.dataset.ringVertex;nextPick=nextPick==='a'?'b':'a';update();};
+  el.addEventListener('click',pick);el.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();pick();}});
+});
+document.querySelectorAll('[data-ring-zoom]').forEach(button=>button.addEventListener('click',()=>{
+  const zoom=Number(button.dataset.ringZoom),canvas=document.getElementById('ring-canvas');
+  canvas.style.width=(zoom*100)+'%';canvas.style.height=(zoom*100)+'%';
+  document.getElementById('ring-zoom-status').textContent=zoom===1?'Fit diagram':zoom+'× zoom';
+  if(zoom===1){document.getElementById('ring-stage').scrollTo(0,0);}
+}));
 async function rebuildView(){
+  const rings=mode.value==='rings';
+  document.getElementById('ring-stage').hidden=!rings;
+  document.getElementById('surface-stage').hidden=rings;
+  document.getElementById('ring-controls').hidden=!rings;
+  document.querySelector('.views').hidden=rings;
+  if(rings){geometry=surfaceGeometry;document.getElementById('local-controls').hidden=true;document.getElementById('surface-controls').hidden=true;update();return;}
+
   const local = mode.value === 'local';
   document.getElementById('local-controls').hidden = !local;
   document.getElementById('surface-controls').hidden = local;
@@ -138,4 +179,5 @@ async function rebuildView(){
     {displaylogo:false,scrollZoom:true,responsive:true,modeBarButtonsToRemove:['toImage']});
   update();
 }
+if(location.hash==='#rings')mode.value='rings';
 rebuildView();
