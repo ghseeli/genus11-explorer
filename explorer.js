@@ -97,7 +97,7 @@ mode.addEventListener('change', rebuildView);
 fold.addEventListener('input', rebuildView);
 function view(name){Plotly.relayout(plot,{'scene.camera':{eye:cameras[name],up:name==='oblique'?{x:0,y:0,z:1}:{x:0,y:1,z:0},projection:{type:'orthographic'}}});}
 document.querySelectorAll('[data-view]').forEach(button=>button.addEventListener('click',()=>view(button.dataset.view)));
-document.getElementById('reset').addEventListener('click',()=>{a.value='1';b.value='2';isolate.checked=false;boundaries.checked=true;labels.checked=true;nextPick='a';fold.value='100';mode.value='surface';thickness.value='2.5';activeCenter=null;rebuildView();});
+document.getElementById('reset').addEventListener('click',()=>{a.value='1';b.value='2';isolate.checked=false;boundaries.checked=true;labels.checked=true;nextPick='a';fold.value='100';mode.value='rings';thickness.value='2.5';activeCenter=null;rebuildView();});
 plot.on('plotly_click',event=>{
   const point=event.points[0];
   if(![71,75].includes(point.curveNumber))return;
@@ -118,7 +118,7 @@ function updateRings(u,v,selected){
   document.querySelectorAll('[data-ring-edge]').forEach(el=>{
     const color=selectedEdges.get(el.dataset.ringEdge);
     el.style.display=color||boundaries.checked&&!isolate.checked?'':'none';
-    el.setAttribute('stroke',color||'#63788b');el.setAttribute('stroke-width',color?'3':'1');
+    el.setAttribute('stroke',color||el.dataset.ringColor||'#63788b');el.setAttribute('stroke-width',color?'3':'1');
     if(color)el.parentNode.appendChild(el);
   });
   const ids=new Set([u,v,...selected.flatMap(i=>surfaceGeometry.triples[i])]);
@@ -179,5 +179,6 @@ async function rebuildView(){
     {displaylogo:false,scrollZoom:true,responsive:true,modeBarButtonsToRemove:['toImage']});
   update();
 }
-if(location.hash==='#rings')mode.value='rings';
+if(location.hash==='#surface')mode.value='surface';
+if(location.hash==='#local')mode.value='local';
 rebuildView();
